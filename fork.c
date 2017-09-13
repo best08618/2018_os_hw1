@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
 	int i;
 	pid_t * child_pids = NULL;
 
+	// proc. creation
 	for(i=0;i<10;i++){
 
 	pid = fork();
@@ -36,11 +37,14 @@ int main(int argc, char *argv[])
 	}
 	}
 
+	// clean-up completed jobs
 	for (i = 0 ; i < 10 ; i++) {
 		int status;
 		// wait for all the child processes' completion
-		waitpid(child_pids[i], &status, 0);
-		printf("parent(%d): child(%d) has completed\n", getpid(), child_pids[i]);
+		int wpid = -1;
+		wpid = child_pids[9-i];
+		waitpid(wpid, &status, 0);
+		printf("parent(%d): child(%d) has completed\n", getpid(), wpid);
 	}
 	return 0;
 
