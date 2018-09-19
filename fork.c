@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
 #include <sys/types.h>
@@ -8,6 +9,8 @@ int main(int argc, char *argv[])
 {
 	pid_t pid;
 
+	for(int i = 0; i < 10 ; i++){
+
 	pid = fork();
 	if (pid == -1) {
 		perror("fork error");
@@ -15,13 +18,17 @@ int main(int argc, char *argv[])
 	}
 	else if (pid == 0) {
 		// child
-		printf("child process with pid %d\n", 
-			getpid());
-	} else {
+		printf("child process with pid %d\n", getpid());
+		exit(0);
+	}
+/*	
+	else {
 		// parent
 		printf("my pid is %d\n", getpid());
 		wait(0);
 	}
+*/
+	}		
 	return 0;
 }
 
