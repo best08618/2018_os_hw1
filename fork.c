@@ -6,6 +6,29 @@
 
 int main(int argc, char *argv[])
 {
+	int i = 0;
+	pid_t pid[10];
+	for(i = 0; i < 10; i++)
+	{
+		cpid[i] = fork();
+		if(cpid[i] == 0)
+		{
+			printf("cpid: %d\n", getpid());
+			exit(0);
+		}
+		else if (cpid[i] < 0)
+		{
+			printf("ERROR\n");
+			exit(0);
+		}
+		else
+		{
+			
+		}
+	}
+	return 0;
+
+/*
 	pid_t pid;
 
 	pid = fork();
@@ -23,5 +46,6 @@ int main(int argc, char *argv[])
 		wait(0);
 	}
 	return 0;
+*/
 }
 
