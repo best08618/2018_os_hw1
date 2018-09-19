@@ -3,25 +3,27 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include<stdlib.h>
 
 int main(int argc, char *argv[])
 {
 	pid_t pid;
+	
+	for(int i = 0; i<10; i++)
+	{	
+		pid = fork();
 
-	pid = fork();
-	if (pid == -1) {
-		perror("fork error");
-		return 0;
+		if (pid < 0 ) {
+			perror("fork error\n");
+			exit(0);
+		}
+		else if(pid == 0) {// child
+			printf("child process with pid : %d\n", getpid());
+			exit(0);
+		}
+
 	}
-	else if (pid == 0) {
-		// child
-		printf("child process with pid %d\n", 
-			getpid());
-	} else {
-		// parent
-		printf("my pid is %d\n", getpid());
-		wait(0);
-	}
+
 	return 0;
 }
 
