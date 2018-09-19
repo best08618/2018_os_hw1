@@ -1,2 +1,2 @@
 test : 
-	gcc -o test test.c
+	gcc -o fork myfork.c
