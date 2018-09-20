@@ -9,6 +9,26 @@
 
 void main(int argc, char *argv[])
 {
+	pid_t cpid;
+	
+
+	while(1)
+	{
+		cpid = fork();
+		if(cpid == 0)
+		{
+			execve();
+			exit(0);
+		}
+		else if(cpid < 0)
+		{
+			printf("Child Process Error!\n");
+		}
+		else if(cpid > 0)
+		{
+			wait(0);
+		}
+	}
 
 	return;
 }
