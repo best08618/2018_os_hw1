@@ -27,7 +27,7 @@ void main(int argc, char *argv[])
 
 	while(1)
 	{
-		//print user info
+		//print user info, time, PWD
 
 		//getline
 
