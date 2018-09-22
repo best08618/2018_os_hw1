@@ -23,20 +23,27 @@
 void main(int argc, char *argv[])
 {
 	pid_t cpid;
-	char input[50] = NULL;
+	size_t inputSize = 32;
+	char *input;
+	input = (char *)malloc(inputSize * sizeof(char));
 
 	while(1)
 	{
 		//print user info, time, PWD
+		printf(">");
 
 		//getline
+		getline(&input, &inputSize, stdin);
+		printf("%s", input);
+		if(strcmp(input, "quit\n") == 0)
+		{
+			exit(0);
+		}
 
 		//string tokenize
 
-		//stat check the $PATH
+		//stat check the input in $PATH
 
 		//if exist fork() and exec on child
 	}
-
-	return;
 }
