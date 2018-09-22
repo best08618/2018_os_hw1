@@ -7,27 +7,35 @@
 #include<sys/types.h>
 #include<errno.h>
 
+/* $PATH directories
+/mips-tools/bin/
+/usr/local/sbin/
+/usr/local/bin/
+/usr/sbin/
+/usr/bin/
+/sbin/
+/bin/
+/usr/games/
+/usr/local/games/
+/snap/bin/
+*/
+
 void main(int argc, char *argv[])
 {
 	pid_t cpid;
-	
+	char input[50] = NULL;
 
 	while(1)
 	{
-		cpid = fork();
-		if(cpid == 0)
-		{
-			execve();
-			exit(0);
-		}
-		else if(cpid < 0)
-		{
-			printf("Child Process Error!\n");
-		}
-		else if(cpid > 0)
-		{
-			wait(0);
-		}
+		//print user info
+
+		//getline
+
+		//string tokenize
+
+		//stat check the $PATH
+
+		//if exist fork() and exec on child
 	}
 
 	return;
