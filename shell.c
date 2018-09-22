@@ -20,30 +20,63 @@
 /snap/bin/
 */
 
-void main(int argc, char *argv[])
+void printInfo();
+char *checkInput(char *input);
+void execute(char *input);
+
+void main()
 {
-	pid_t cpid;
-	size_t inputSize = 32;
+	size_t inputSize = 50;
 	char *input;
 	input = (char *)malloc(inputSize * sizeof(char));
 
 	while(1)
 	{
 		//print user info, time, PWD
-		printf(">");
+		printInfo();
 
 		//getline
 		getline(&input, &inputSize, stdin);
-		printf("%s", input);
-		if(strcmp(input, "quit\n") == 0)
-		{
-			exit(0);
-		}
-
-		//string tokenize
 
 		//stat check the input in $PATH
+		input = checkInput(input);
 
 		//if exist fork() and exec on child
+		execute(input);
+	}
+}
+
+void printInfo()
+{
+	printf(">");
+	return;
+}
+
+char *checkInput(char *input)
+{
+	if(strcmp(input, "quit\n") == 0)
+	{
+		exit(0);
+	}
+	else if(*input == '/')
+	{
+
+	}
+	else
+	{
+
+	}
+}
+
+void execute(char *input)
+{
+	if(*input == '/')
+	{		
+
+	}
+	else
+	{
+		printf("%s", input);
+		return;
 	}
 }
