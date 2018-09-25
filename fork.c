@@ -8,20 +8,31 @@ int main(int argc, char *argv[])
 {
 	pid_t pid;
 
-	pid = fork();
-	if (pid == -1) {
+	pid = fork();//fork generate 
+	if (pid == -1) { //if pid = -1 -> fork error
 		perror("fork error");
-		return 0;
+		exit 0;
 	}
 	else if (pid == 0) {
-		// child
-		printf("child process with pid %d\n", 
+		int j;
+		for(j = 0; j < 10; j++) {
+	// child process 0 return
+			printf("child process with pid %d\n", 
 			getpid());
-	} else {
-		// parent
-		printf("my pid is %d\n", getpid());
-		wait(0);
+			sleep(1);
+
 	}
+	exit(0);
+}	
+	 else {
+		// parent process
+		int i;
+		for (i = 0; i<10; i++) {
+			printf("my pid is %d\n", getpid());
+			sleep(1);
+	}
+	exit(0);
+}
 	return 0;
 }
 
