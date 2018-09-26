@@ -50,12 +50,14 @@ int main(void){
 					break;
 				}
 			}
+			free(imm);
 		}
 		if(i>=count_path)
 			printf("No such a file\n");	
 	
 	}
-
+	free(tok_path);
+	free(tok_com);
 	return 0;
 
 
