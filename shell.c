@@ -4,27 +4,50 @@
 #include <string.h>
 #include <signal.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 
 char* read_command(void);
 char** tokenize_command(char* line);
-
+int execute(char** comm);
 
 int main(void)
 {
 	printf("Shell from Jinhwa");
+	setenv("PATH","/usr/bin/:/bin/:./",0);
 	char buff[1024];
 	char* line;
 	char** tok_com; 
-	while(1){
+	int flag = 1 ;
+	while(flag){
 		getcwd(buff,1024);
 		printf("%s" , buff);
-		printf(">");
+		printf(":");
 		line = read_command();
-		printf("line %s\n", line);
 		tok_com = tokenize_command(line);
-		printf("tok0: %s\n " ,tok_com[0]);
-		return 0 ;
+		flag = execute(tok_com);
 	} 
+}
+
+int execute(char** comm)
+{
+	pid_t pid;
+	int stat;
+	
+	pid= fork();
+	if( pid ==0 ){
+	// child process
+		if(execvp (comm[0],comm) == -1)
+		{
+		//there are no FILE
+			perror("execvp error");
+		}
+		exit(EXIT_FAILURE);
+	}
+	else{
+	//prent
+		wait(0);	
+	}
+
 }
 
 char** tokenize_command(char* line)
