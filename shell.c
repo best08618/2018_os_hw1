@@ -13,7 +13,7 @@ int execute(char** comm);
 int main(void)
 {
 	printf("Shell from Jinhwa");
-	setenv("PATH","/usr/bin/:/bin/:./",0);
+//	setenv("PATH","/usr/bin/:/bin/:./",0);
 	char buff[1024];
 	char* line;
 	char** tok_com; 
@@ -32,6 +32,8 @@ int execute(char** comm)
 {
 	pid_t pid;
 	int stat;
+	if(strncmp(comm[0],"quit",4)==0)
+		exit(0);
 	
 	pid= fork();
 	if( pid ==0 ){
