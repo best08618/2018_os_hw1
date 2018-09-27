@@ -19,8 +19,12 @@ int main(void){
 	char** tok_com;
 	struct stat buf;
 	pid_t pid;
+	char buff[1024];
 	int count = 0; 
+
 	while(1){
+	        getcwd(buff,1024);
+                printf("%s" , buff);
 		printf(">");
 		line=read_command();
 		tok_com= tokenize(" ",line);

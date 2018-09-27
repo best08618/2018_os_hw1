@@ -13,7 +13,6 @@ int execute(char** comm);
 int main(void)
 {
 	printf("Shell from Jinhwa");
-//	setenv("PATH","/usr/bin/:/bin/:./",0);
 	char buff[1024];
 	char* line;
 	char** tok_com; 
