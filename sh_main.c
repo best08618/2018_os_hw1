@@ -98,7 +98,7 @@ char* read_command(void)
 
 char** tokenize(char* tok, char* line)
 {
-        char** tok_command=malloc(100);
+        char** tok_command=malloc(1000);
         int tok_num = 0;
         char* token = strtok(line,tok);
         tok_command[tok_num++] = token;
@@ -109,6 +109,13 @@ char** tokenize(char* tok, char* line)
                 tok_num ++ ;
 
         }
+	if((tok_num>2) &&(tok_command[1][0] == '$'))
+        {
+                char* tp = tok_command[1] + 1 ;
+		printf("%s",tp);
+                tok_command[1] = getenv(tp);
+        }
+
 	if(tok == ":")
 		count_path = tok_num-1;
         return tok_command;
