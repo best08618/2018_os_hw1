@@ -5,6 +5,8 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+
 
 char* read_command(void);
 char** tokenize_command(char* line);
@@ -56,6 +58,7 @@ char** tokenize_command(char* line)
 	char** tok_command=malloc(sizeof(char**));
 	int tok_num = 0; 
 	char* token = strtok(line," ");
+	char* tp;
 	tok_command[tok_num++] = token; 
 	while(token)
 	{
@@ -64,6 +67,11 @@ char** tokenize_command(char* line)
 		tok_num ++ ;
 	
 	}
+	if((tok_num>2) &&(tok_command[1][0] == '$'))
+	{	
+		char* tp = tok_command[1] + 1 ;
+		tok_command[1] = getenv(tp);
+	}	
 	return tok_command;
 }
 
