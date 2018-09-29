@@ -12,10 +12,10 @@
 //function
 int printSiSH();
 int stat_file();
-int getenv_var();
+int getenv_var(char newenv[10]);
 int token();
 int path_token();
-int execute();
+int execute(char *argv[]);
 
 //global variable
 char* str[40];
@@ -43,13 +43,31 @@ int main(int argc, char *argv[]){
 
 		space = token(command);
 		if(space==0){
-			if((str[0][0]=='$')||((strcmp(str[0],"echo")==0)&&(str[1][0]=='$'))){
-				getenv_var();
+			if(str[0][0]=='$'){
+				getenv_var(str[0]+1);
+			}
+			else if(strcmp(str[0],"echo")==0){
+				stat_file();
+
+				for(int a=1; ;a++){
+					if(str[a]==NULL) break;
+					
+					if(str[a][0]=='$'){			
+						char* env;
+						env = getenv(str[a]+1);
+						printf("%s",env);
+					}
+					else{
+						printf("%s",str[a]);
+					}
+					printf(" ");
+				}
+				printf("\n");
 			}
 			else{
 				int find = stat_file();
 				if(find==0){
-					execute();
+					execute(str);
 				}
 				else if(find==-1){
 					printf("cannot find program\n");
@@ -60,7 +78,7 @@ int main(int argc, char *argv[]){
 	return 0;
 }
 
-int execute(){
+int execute(char* argv[]){
 	pid_t pid;
 	pid=fork();
 
@@ -69,7 +87,7 @@ int execute(){
 		exit(0);
 	}
 	else if(pid==0){
-		int ex_err = execve(findpath, str ,NULL);
+		int ex_err = execve(findpath, argv ,NULL);
 		free(findpath);
 		if(ex_err==-1){
 			printf("execve err\n");
@@ -128,10 +146,10 @@ int token(char* command){
 	return 0;
 }
 
-int getenv_var(){
+int getenv_var(char newenv[10]){
 	char *env;
 	env=(char*)malloc(sizeof(char)*200);
-	char newenv[10];
+	//char newenv[10];
 
 	if(strcmp(str[0]+1,"TIME")==0){
 		time_t  today_time;
@@ -142,11 +160,11 @@ int getenv_var(){
 	}
 	else{
 		if(strcmp(str[0],"echo")==0){
-			strcpy(newenv,str[1]+1);
+			//strcpy(newenv,str[1]+1);
 			strcpy(env,str[1]+1);
 		}
 		else{
-			strcpy(newenv,str[0]+1);
+			//strcpy(newenv,str[0]+1);
 		}
 		env = getenv(newenv);
 		printf("%s=%s\n", newenv, env);
@@ -183,8 +201,7 @@ int stat_file(){
 		strcat(newpath,str[0]);
 		ret = stat(newpath, &fstat_buf);
 		i++;
-
-
+		
 		if(ret==0){
 			strcpy(findpath,newpath);
 			return 0;
