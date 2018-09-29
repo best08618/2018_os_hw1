@@ -43,18 +43,18 @@ int main(int argc, char *argv[]){
 
 		space = token(command);
 		if(space==0){
-			if(str[0][0]=='$'){
-			getenv_var();
-		}
-		else{
-			int find = stat_file();
-			if(find==0){
-				execute();
+			if((str[0][0]=='$')||((strcmp(str[0],"echo")==0)&&(str[1][0]=='$'))){
+				getenv_var();
 			}
-			else if(find==-1){
-				printf("cannot find program\n");
+			else{
+				int find = stat_file();
+				if(find==0){
+					execute();
+				}
+				else if(find==-1){
+					printf("cannot find program\n");
+				}
 			}
-		}
 		}
 	}
 	return 0;
@@ -130,21 +130,27 @@ int token(char* command){
 
 int getenv_var(){
 	char *env;
+	env=(char*)malloc(sizeof(char)*200);
 	char newenv[10];
+
 	if(strcmp(str[0]+1,"TIME")==0){
 		time_t  today_time;
 		time_str* today;
 		time(&today_time);
-
 		today = localtime(&today_time);
 		printf("[TIME] %d:%d:%d \n", today->tm_hour, today->tm_min,today->tm_sec);
 	}
 	else{
-		strcpy(newenv,str[0]+1);
+		if(strcmp(str[0],"echo")==0){
+			strcpy(newenv,str[1]+1);
+			strcpy(env,str[1]+1);
+		}
+		else{
+			strcpy(newenv,str[0]+1);
+		}
 		env = getenv(newenv);
 		printf("%s=%s\n", newenv, env);
 	}
-
 	return -1;
 }
 
@@ -164,7 +170,6 @@ int stat_file(){
 			getcwd(cwd,sizeof(cwd));
 			return 2;
 		}
-
 		char newpath[20];
 		findpath = (char*)malloc(sizeof(int)*100);
 
@@ -178,6 +183,7 @@ int stat_file(){
 		strcat(newpath,str[0]);
 		ret = stat(newpath, &fstat_buf);
 		i++;
+
 
 		if(ret==0){
 			strcpy(findpath,newpath);
