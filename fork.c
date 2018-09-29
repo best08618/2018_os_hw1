@@ -21,16 +21,21 @@ int main(int argc, char *argv[])
 	if (pid == -1) {
 		perror("fork error");
 		return 0;
-	} else if (pid == 0) {
-		printf("child process with pid %d\n",getpid());
+			}
 
+	else if (pid == 0) {
+	// Child
+		printf("child process with pid %d\n",getpid());
 		sleep(1);
 		return 0;
-	} else {
+			}
+
+	else 	{
 		if (child_pids == NULL) {
 			child_pids = (pid_t *)malloc(sizeof(pid_t)*10);
 			memset(child_pids, 0, sizeof(*child_pids));
-					}
+				}
+		// Parent
 		printf("parent(%d): child(%d) has created\n", getpid(), pid);
 		child_pids[i] = pid;
 		}
@@ -43,7 +48,7 @@ int main(int argc, char *argv[])
 		waitpid(wpid, &status, 0);
 		printf("parent(%d): child(%d) has completed\n", getpid(), wpid);
 	}
-	return 0;
 
+	return 0;
 }
 
