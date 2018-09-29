@@ -4,31 +4,47 @@
 
 int main(int argc, char * argv[])
 {
-	char input;
+	char input[15];
 	const char *path = getenv("PATH");
 
-	printf("welcome to javier's shell :D\n\n");
+	printf("\n\twelcome to javier's shell :D\n\n");
 
 
 	while(1){
 
 		printf(">");
-		scanf("%s", &input);
+		scanf("%s", input);
 
-		if(*input=='\0'){ /*nothing*/ }
+		if(strcmp(input, "\n")==0) { /*nothing*/ }
 
-		else if(*input=="quit"){ break; }
+		else if(strcmp(input, "quit")==0) {
+			printf("\t<good bye!\n");
+			break;
+		}
 
 		//run a program, look in all directories
 		else {
-			char *str = *path; //so i dont mes the original one
-			char *tok = NULL;
+			char *temp, *tok[100];
+			char *str = path; //so i dont mes the original one
+			int i = 0;
 
-			tok = strtok(str, ":");
-			while(tok != NULL) {
-				printf("\t%s...%s\n", tok, input); //for now i just want to print it, later i can  actually run it
-				tok = strtok(str, ":");
+			printf("%s \n\n",str);
+
+			/*
+			first I try just to print the adres of the programs
+			later i can figure out how to run them
+			*/
+			tok[1] = strtok(str, ":");
+			while(tok[i] != NULL && i<10) {
+
+				printf("%s/%s\n", tok[i], input);
+				tok[i] = strtok_r(str, ":",&temp);
+				i++;
 			}
+
+
+			printf("***---------------------***\n");
+
 		}
 	}
 
