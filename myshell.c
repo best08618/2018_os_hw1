@@ -70,6 +70,7 @@ int execute(){
 	}
 	else if(pid==0){
 		int ex_err = execve(findpath, str ,NULL);
+		free(findpath);
 		if(ex_err==-1){
 			printf("execve err\n");
 		}
