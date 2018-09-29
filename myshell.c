@@ -13,19 +13,17 @@
 int printSiSH();
 int stat_file();
 int getenv_var();
-void token();
+int token();
 int path_token();
 int execute();
 
 //global variable
 char* str[40];
-char* basic_path;
 char store_path[70][70];
 char* basic[100];
 int str_num, num_path;
 char command[256];
 char* findpath;
-char** argv_cpy;
 typedef struct tm time_str;
 
 
@@ -33,21 +31,19 @@ int main(int argc, char *argv[]){
 	num_path=0;
 	memset(store_path,0,sizeof(store_path));
 	path_token();
-
+	int space=0;
 	while(1){
 		memset(str,0,sizeof(str));
-		str_num=0;
+		str_num,space=0;
 		printSiSH();
-
 		fgets(command,sizeof(command),stdin);
 		command[strlen(command)-1]='\0';
-
 		if((strcmp(command, "quit")==0))
 			break;
 
-		token(command);
-
-		if(str[0][0]=='$'){
+		space = token(command);
+		if(space==0){
+			if(str[0][0]=='$'){
 			getenv_var();
 		}
 		else{
@@ -58,6 +54,7 @@ int main(int argc, char *argv[]){
 			else if(find==-1){
 				printf("cannot find program\n");
 			}
+		}
 		}
 	}
 	return 0;
@@ -89,6 +86,7 @@ int path_token(){
 	char *saveptr, *str_var;
 	char save_path[200];
 	int j=-0;
+	char* basic_path;
 
 	basic_path=getenv("PATH");
 	strcpy(save_path,basic_path);
@@ -111,18 +109,22 @@ int printSiSH(){
 	return 0;
 }
 
-void token(char* command){
+int token(char* command){
 	char *next, *token_str;
 	str_num=0;
 
 	while(1){
 		str[str_num] = strtok_r(command, " ", &next);
-		if(str[str_num]==NULL)
+		if(str[0]==NULL){
+			return 1;
+		}
+		if(str[str_num]==NULL){
 			break;
+		}
 		command=NULL;
 		str_num++;
 	}
-	return ;
+	return 0;
 }
 
 int getenv_var(){
