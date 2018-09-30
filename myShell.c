@@ -1,52 +1,58 @@
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 int main(int argc, char * argv[])
 {
-	char input[15];
-	const char *path = getenv("PATH");
-
+	char *tok[100], *temp;
 	printf("\n\twelcome to javier's shell :D\n\n");
 
 
 	while(1){
+		char *input;
 
-		printf(">");
+		printf("  >");
 		scanf("%s", input);
 
-		if(strcmp(input, "\n")==0) { /*nothing*/ }
-
-		else if(strcmp(input, "quit")==0) {
+		if(strcmp(input, "quit")==0) {
 			printf("\t<good bye!\n");
 			break;
 		}
 
-		//run a program, look in all directories
-		else {
-			char *temp, *tok[100];
-			char *str = path; //so i dont mes the original one
-			int i = 0;
+		else /*look for a program in all directories*/ {
 
-			printf("%s \n\n",str);
+			char *var = getenv("PATH");
+			char *path;
+			int flag;
+			struct stat buf;
+			//buf = malloc(sizeof(struct stat));
 
-			/*
-			first I try just to print the adres of the programs
-			later i can figure out how to run them
-			*/
-			tok[1] = strtok(str, ":");
-			while(tok[i] != NULL && i<10) {
+			for(int i=0; i<38; i++, var=NULL) {
+				*tok = strtok_r(var, ":", &temp);
+				if(*tok==NULL){break;}
 
-				printf("%s/%s\n", tok[i], input);
-				tok[i] = strtok_r(str, ":",&temp);
-				i++;
+				strcpy(path, *tok);
+				strcat(path, "/");
+				strcat(path, input);
+				printf("%s\n", path);
+
+
+				if (stat("/mnt/c/Users/franc/projects/2018_os_hw1/README.md", &buf)) {
+					printf("%s","it exist\n");
+    				}
+				else{
+					printf("%s","does not exist\n");
+				}
+
 			}
-
-
-			printf("***---------------------***\n");
-
+			printf("\n");
+			//free(buf);
 		}
 	}
 
 	return 0;
 }
+
