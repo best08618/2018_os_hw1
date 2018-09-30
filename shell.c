@@ -8,11 +8,11 @@
 #include <string.h>
 
 int quit;
-char f_str[20];
+char f_str[50];
 char tcopy[200];
 char *f_str1;
 char *pathtok[100];
-char *tok[10],*saveptr;
+char *tok[50],*saveptr;
 struct stat fstat_buf;
 void in_path();
 void ffork();
@@ -61,12 +61,13 @@ void in_path(){
 		env = getenv(tok[0]);
 		strncpy(tcopy,env,100);
 		printf("%s = %s\n",tok[0],env);
+		return;
 	}
 	echo = strncmp(tok[0],"echo",4);        // if input 'echo + many $env'
 	if ((echo==0)&&(tok[1]!=NULL)&&(tok[1][0]=='$')){
 		for (e = 1; tok[e]!=NULL; e++){   
 			env = getenv(tok[e]+1);
-			strncpy(tcopy,env,100);
+			strncpy(tcopy,env,200);
 			printf("%s = %s\n",tok[e],env);
 		} 
 		return;
