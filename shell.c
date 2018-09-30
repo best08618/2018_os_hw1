@@ -26,22 +26,22 @@ int main()
 		char* input;
 		input = (char*)malloc(sizeof(char)*50);	
 		printf("Enter the input : ");
-		fgets(input, 100, stdin);
-		input[strlen(input)-1]='\0';
+		fgets(input, 100, stdin);  //command입력받기
+		input[strlen(input)-1]='\0'; //끝에 NULL
 		strcpy(command,input);
 		
-		if(!strncmp(command, "quit",4)){
+		if(!strncmp(command, "quit",4)){ //종료시
 			printf("SISH Finish\n");
 			break;
 		}
 					
-		commandtok(command);	
-		stat_check = Getenv(command);
+		commandtok(command); //tokenize
+		stat_check = Getenv(command); //getenv, stat
 
-		if(stat_check == 1){	
+		if(stat_check == 1){//found	
 			Fork();
-		}else if(stat_check == 2){
-		}else{
+		}else if(stat_check == 2){//TIME, cd
+		}else{ // not found
 			printf("%s: command not found\n", command);
 		}		
 	}
@@ -77,7 +77,7 @@ int Getenv()
 	char var1[100];
 	
 
-	if(!strncmp(command, "/",1)){
+	if(!strncmp(command, "/",1)){ // /가 입력
 		stat_find = stat(command, &fstat_buf);
 		if(stat_find == 0){
 			strcpy(forkstr, command);
@@ -94,22 +94,22 @@ int Getenv()
 
 		strcpy(getstr, tok[j]);
 		strcat(getstr, "/");
-		strcat(getstr, inputtok[0]);
+		strcat(getstr, inputtok[0]);//command와 PATH 하나의 문자열로
 
-		if(!strncmp(command,"cd",2)){
+		if(!strncmp(command,"cd",2)){ //cd일때
 			chdir(inputtok[1]);
 			return 2;
-		}else if(!strncmp(command,"TIME",4)){
+		}else if(!strncmp(command,"TIME",4)){ //TIME일때
 			Time();
 			return 2;		
 		}
-			stat_find = stat(getstr, &fstat_buf);
+			stat_find = stat(getstr, &fstat_buf); //stat check
 
-			if(stat_find == 0){
+			if(stat_find == 0){//찾으면 return 1
 				strcpy(forkstr, getstr);
 				return 1;
 			}
-		memset(getstr, 0, sizeof(getstr));
+		memset(getstr, 0, sizeof(getstr)); //초기화
 		memset(newstr, 0, sizeof(newstr));
 	}
 	return 0;
@@ -124,16 +124,16 @@ int Fork()
 			exit(0);
 		}
 		else if(pid == 0){
-			execve(forkstr, inputtok, NULL);
+			execve(forkstr, inputtok, NULL);//자식프로세서 execute
 			exit(0);
 		}
 		else{
-			wait(0);
+			wait(0); //부모프로세서 wait
 		}
 	return 0;
 }
 
-void Time()
+void Time() // TIME command일때 
 {
 	time_t now_time;
 	struct tm *now_date;
