@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+//#define PATH "/bin:/usr/bin:/usr/local/bin"
 
 int main(int argc, char * argv[])
 {
@@ -14,11 +15,13 @@ int main(int argc, char * argv[])
 		for (i = 0 ; i < argc-1 ; i++) {
 			env = getenv(argv[i+1]);
 			printf("%s=%s\n", argv[i+1], env);
+			//env = PATH;
 			for (j=0,str=env; ;str= NULL,j++) {
 				tok[j] = strtok_r(str, ":", &saveptr);
 				if (tok[j] == NULL) break;
-				printf("\t%s\n", tok[j]);
-			}
+				printf("\t@@@@@@@@@%s\n", tok[j]);	
+		}
+			
 			printf("***---------------------***\n");
 		}
 	}
