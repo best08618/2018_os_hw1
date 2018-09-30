@@ -21,13 +21,13 @@ int main(int argc, char *argv[])
 		printf("child process with pid %d\n", getpid());
 		exit(0);
 	}
-/*	
+	
 	else {
 		// parent
 		printf("my pid is %d\n", getpid());
 		wait(0);
 	}
-*/
+
 	}		
 	return 0;
 }
