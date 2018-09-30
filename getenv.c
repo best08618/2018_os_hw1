@@ -7,6 +7,8 @@ int main(int argc, char * argv[])
 	int i, j=0;
 	char *env, *str;
 	char *tok[100], *saveptr;
+	printf("the number fo argc : %d\n",argc);
+	printf("the arrv : %s\n",argv[1]);
 	if (argc == 1)	{
 		printf("usage: getenv env_vars ... \n");
 		return 0;
