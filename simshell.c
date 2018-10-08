@@ -9,6 +9,8 @@
 #define TOK_BUFSIZE 64
 #define LINE_BUFSIZE 1024	
 
+
+
 char* read_line()
 {
 	/*char *line = NULL;
@@ -30,7 +32,7 @@ char* read_line()
 	{
 		charac = getchar();
 		
-		//reach END OF FILE, terminate with null and return
+		//reach END OF FILE or new line, terminate with null and return the line
 		if(charac == EOF || charac == '\n')
 		{
 			buffer[num] = '\0';
@@ -52,7 +54,7 @@ char** parse_line(char* line)
 	int tok_num = 0;
 	char **ppArguList = malloc (bufferSize * sizeof (char*));
 	char *pToken;
-
+	
 	if(!ppArguList)
 	{
 		printf("allocation error");
@@ -62,8 +64,15 @@ char** parse_line(char* line)
 	//parse line into token
 	pToken = strtok(line, " ");
 	
+//	if(!strcmp(pToken, "quit"))
+//	{
+//		printf("----- Shell Ending -----\n");
+//		return NULL;
+//	}
+
 	while(pToken != NULL)
 	{
+		
 		//sort tokens into argu list
 		ppArguList[tok_num]=pToken;
 		tok_num++;
@@ -82,6 +91,7 @@ char** parse_line(char* line)
 		//continue scanning the line while the first call ended
     	pToken = strtok(NULL, " ");
 	}
+	
 	//free ppArguList
 	ppArguList[tok_num] = NULL;
 	return ppArguList;
@@ -90,6 +100,9 @@ char** parse_line(char* line)
 
 int execute(char** argv)
 {
+//	if(argv == NULL)
+//		return 0;
+
 	pid_t pid;
 	int status;
 
@@ -130,7 +143,6 @@ void command_loop()
 		args = parse_line(line);
 		status = execute(args);
 	}
-
 	free(line);
 	free(args);
 }
